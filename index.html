@@ -1,7 +1,119 @@
 <!DOCTYPE html>
 <html>
+    <head>
+
+        <style type="text/css">
+            #cy {
+                width: 100vw;
+                height: 100vh;
+                display: block;
+                }
+        </style>
+        
+    </head>
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+<h1>Red Rock, Wyoming</h1>
+<h2>Experiments with Cytoscape and graph theory</h2>
+<div id="cy"></div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.1.2/cytoscape.js"></script>
+    <script scr="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-debug.js" ></script>
+    <script type="text/javascript">
+
+        var cy = cytoscape({
+            container: document.getElementById('cy'),
+            style: [{
+                selector: 'node',
+                style: {
+                    'width': 90,
+                    'height': 90,
+                    'content': 'data(text)',
+                    'text-valign': 'center',
+                    'color': 'white',
+                    'background-color': 'blue',
+                    'text-outline-width': 2,
+                    'text-outline-color': '#222'
+                    }
+            },
+            {
+                selector: 'edge',
+                style: {
+                    'content': 'data(text)',
+                }
+            },
+            {
+                selector: '.autorotate',
+                style: {
+                    "edge-text-rotation": "autorotate"
+                }
+            },
+            {
+                selector: '.conflict',
+                style: {
+                    'color': 'red',
+                    'line-color': 'red',
+                }
+            },
+            {
+                selector: '.questionable',
+                style: {
+                    'color': 'yellow',
+                    'line-color': 'yellow',
+                }
+            }],
+            elements: [ // list of graph elements to start with
+                { data: { id: 'ps', text: 'Paul Smith' } },
+                { data: { id: 'fl', text: 'Fred Linch' } },
+                { data: { id: 'dp', text: 'Dorothy Parsons' } },
+                { data: { id: 'dg', text: 'Dave Goller' } },
+                { data: { id: 'cg', text: 'Charlie Goller' } },
+                { data: { id: 'ct', text: 'Cara Thorne' } },
+                { data: { id: 'dt', text: 'Delilah Thorne' } },
+                { data: { id: 'lr', text: 'Logan Reeves' } },
+                { data: { id: 'ma', text: 'Manuel Alejandro' } },
+                { data: { id: 'md', text: 'Mitchell Donovan' } },
+               
+
+                { data: { source: 'ps', target: 'fl', text: 'friend' }, classes: 'autorotate' },
+                { data: { source: 'ps', target: 'dg', text: 'enemy' }, classes: 'autorotate' },
+                { data: { source: 'ps', target: 'cg', text: 'enemy' }, classes: 'autorotate conflict' },
+                { data: { source: 'dp', target: 'fl', text: 'friend' }, classes: 'autorotate' },
+                { data: { source: 'dp', target: 'ps', text: 'ally' }, classes: 'autorotate' },
+                { data: { source: 'dp', target: 'dg', text: 'enemy' }, classes: 'autorotate' },
+                { data: { source: 'dp', target: 'cg', text: 'enemy' }, classes: 'autorotate' },
+                { data: { source: 'fl', target: 'dg', text: 'enemy' }, classes: 'autorotate' },
+                { data: { source: 'fl', target: 'cg', text: 'enemy' }, classes: 'autorotate' },
+                { data: { source: 'cg', target: 'dg', text: 'relative' }, classes: 'autorotate' },
+                { data: { source: 'ct', target: 'dt', text: 'relative' }, classes: 'autorotate' },
+                { data: { source: 'ct', target: 'lr', text: 'friend' }, classes: 'autorotate' },
+                { data: { source: 'dt', target: 'lr', text: 'friend' }, classes: 'autorotate' },
+                { data: { source: 'dt', target: 'cg', text: 'friend' }, classes: 'autorotate conflict' },
+                { data: { source: 'ps', target: 'dt', text: 'friend' }, classes: 'autorotate conflict' },
+                { data: { source: 'ps', target: 'ma', text: '?' }, classes: 'autorotate questionable' },
+                { data: { source: 'dt', target: 'ma', text: '?' }, classes: 'autorotate questionable' },
+                { data: { source: 'dg', target: 'md', text: 'ally' }, classes: 'autorotate' },
+                { data: { source: 'cg', target: 'md', text: 'ally' }, classes: 'autorotate' }
+
+            
+            ]
+            //,
+            // layout: {
+            //     name: 'grid',
+            //     rows: 4
+            // }
+            });
+
+            var ViewModel = {  
+                json: function() {
+                console.log(cy.elements().jsons());
+                }  
+            };
+            
+            ko.applyBindings(ViewModel);
+    </script>
+
+
+
 </body>
 </html>
